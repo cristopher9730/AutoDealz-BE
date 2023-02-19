@@ -2,29 +2,25 @@ package com.autos.repository;
 
 import com.autos.db.DataAccess;
 import com.autos.domain.Car;
-import com.azure.cosmos.CosmosClient;
-import com.azure.cosmos.CosmosContainer;
-import com.azure.cosmos.CosmosDatabase;
-import com.azure.cosmos.CosmosException;
 import com.azure.cosmos.models.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-
+@Repository
 public class CarRepository {
+    @Autowired
     private ObjectMapper objectMapper;
-    private CosmosDatabase cosmosDatabase;
-    private String DATABASE_ID;
-    private String CONTAINER_ID;
-    private CosmosClient cosmosClient = DataAccess
-            .getCosmosClient();
-    private CosmosContainer cosmosContainer;
-
+    @Autowired
+    private DataAccess dataAccess;
+    private final String DATABASE_ID = "Cars";
+    private final String CONTAINER_ID = "1";
     public List<Car> getAllCars() {
 
         List<Car> cars = new ArrayList<>();
@@ -46,7 +42,7 @@ public class CarRepository {
         do {
 
             for (FeedResponse<JsonNode> pageResponse :
-                    getContainerCreateResourcesIfNotExist()
+                    dataAccess.getCosmosClient().getDatabase(DATABASE_ID).getContainer(CONTAINER_ID)
                             .queryItems(sql, options, JsonNode.class)
                             .iterableByPage(continuationToken, maxItemCount)) {
 
@@ -74,43 +70,4 @@ public class CarRepository {
         } while (continuationToken != null);
         return cars;
     }
-
-    private CosmosContainer getContainerCreateResourcesIfNotExist() {
-
-        try {
-
-            if (cosmosDatabase == null) {
-                CosmosDatabaseResponse cosmosDatabaseResponse = cosmosClient.createDatabaseIfNotExists(DATABASE_ID);
-                cosmosDatabase = cosmosClient.getDatabase(cosmosDatabaseResponse.getProperties().getId());
-            }
-
-        } catch (CosmosException e) {
-            // TODO: Something has gone terribly wrong - the app wasn't
-            // able to query or create the collection.
-            // Verify your connection, endpoint, and key.
-            System.out.println("Something has gone terribly wrong - " +
-                    "the app wasn't able to create the Database.\n");
-            e.printStackTrace();
-        }
-
-        try {
-
-            if (cosmosContainer == null) {
-                CosmosContainerProperties properties = new CosmosContainerProperties(CONTAINER_ID, "/id");
-                CosmosContainerResponse cosmosContainerResponse = cosmosDatabase.createContainerIfNotExists(properties);
-                cosmosContainer = cosmosDatabase.getContainer(cosmosContainerResponse.getProperties().getId());
-            }
-
-        } catch (CosmosException e) {
-            // TODO: Something has gone terribly wrong - the app wasn't
-            // able to query or create the collection.
-            // Verify your connection, endpoint, and key.
-            System.out.println("Something has gone terribly wrong - " +
-                    "the app wasn't able to create the Container.\n");
-            e.printStackTrace();
-        }
-
-        return cosmosContainer;
-    }
-
 }

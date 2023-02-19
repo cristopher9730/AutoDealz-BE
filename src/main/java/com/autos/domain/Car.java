@@ -9,6 +9,7 @@ public class Car {
     private String plateNumber;
     private String color;
     private String brand;
+    private String model;
     private String type;
     private String year;
     private double price;
@@ -17,6 +18,5 @@ public class Car {
     private String odometer;
     private String transmission;
     private String cylinders;
-
 
 }

@@ -6,10 +6,9 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 
 @SpringBootApplication
 @EnableConfigurationProperties(AppProperties.class)
-public class AgenciaAutosUsadosApplication {
-
+public class UsedCarsApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(AgenciaAutosUsadosApplication.class, args);
+		SpringApplication.run(UsedCarsApplication.class, args);
 	}
 
 }
