@@ -1,6 +1,5 @@
 package com.autos;
 
-import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "config")
@@ -17,4 +16,6 @@ public class AppProperties {
     public String getCosmosHost(){
         return host;
     }
+
+    public String getCosmosKey(){return key;}
 }
