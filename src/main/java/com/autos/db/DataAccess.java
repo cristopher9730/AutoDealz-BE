@@ -1,14 +1,14 @@
 package com.autos.db;
 
+import com.autos.AppProperties;
 import com.azure.cosmos.ConsistencyLevel;
 import com.azure.cosmos.CosmosClient;
 import com.azure.cosmos.CosmosClientBuilder;
-import org.springframework.beans.factory.annotation.Value;
 
 public class DataAccess {
     private static CosmosClient cosmosClient = new CosmosClientBuilder()
-            .endpoint(host)
-            .key(key)
+            .endpoint(AppProperties.getInstance().getCosmosHost())
+            .key(AppProperties.getInstance().getCosmosKey())
             .consistencyLevel(ConsistencyLevel.EVENTUAL)
             .buildClient();
 
