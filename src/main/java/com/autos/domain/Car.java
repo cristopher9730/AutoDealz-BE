@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class Car {
-
     private String id;
     private String plateNumber;
     private String color;
@@ -18,5 +17,5 @@ public class Car {
     private String odometer;
     private String transmission;
     private String cylinders;
-
+    private boolean sold;
 }
