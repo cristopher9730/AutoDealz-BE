@@ -3,6 +3,7 @@ package com.autos.controller;
 import com.autos.AppProperties;
 import com.autos.domain.Car;
 import com.autos.repository.CarRepository;
+import com.autos.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,11 +17,9 @@ import java.util.List;
 @RequestMapping("/api/cars")
 public class CarsController {
     @Autowired
-    CarRepository carRepository;
-    @Autowired
-    AppProperties appProperties;
+    private CarService carService;
     @GetMapping("/getCars")
     public List<Car> getCars(){
-        return carRepository.getAllCars();
+        return carService.get();
     }
 }

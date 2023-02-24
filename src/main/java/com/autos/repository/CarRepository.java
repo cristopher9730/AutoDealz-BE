@@ -2,6 +2,7 @@ package com.autos.repository;
 
 import com.autos.db.DataAccess;
 import com.autos.domain.Car;
+import com.azure.cosmos.CosmosException;
 import com.azure.cosmos.models.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -69,5 +70,17 @@ public class CarRepository {
 
         } while (continuationToken != null);
         return cars;
+    }
+
+    public void update(Car car) {
+        try {
+            dataAccess.getCosmosClient()
+                    .getDatabase(DATABASE_ID)
+                    .getContainer(CONTAINER_ID)
+                    .replaceItem(car, car.getId(), new PartitionKey(car.getId()), new CosmosItemRequestOptions());
+        } catch (CosmosException e) {
+            System.out.println("Error updating TODO item.\n");
+            e.printStackTrace();
+        }
     }
 }
