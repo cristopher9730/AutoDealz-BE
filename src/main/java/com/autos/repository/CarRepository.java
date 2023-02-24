@@ -58,7 +58,7 @@ public class CarRepository {
                             if (error_count >= error_limit) {
                                 System.out.println("\n...reached max error count.\n");
                             } else {
-                                System.out.println("Error deserializing TODO item JsonNode. " +
+                                System.out.println("Error deserializing Car item JsonNode. " +
                                         "This item will not be returned.");
                                 e.printStackTrace();
                             }
