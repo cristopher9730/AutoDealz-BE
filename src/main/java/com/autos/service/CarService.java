@@ -24,4 +24,8 @@ public class CarService {
     public List<Car> get(){
         return carRepository.getAllCars();
     }
+
+    public void delete(String carId){
+        carRepository.delete(carId);
+    }
 }

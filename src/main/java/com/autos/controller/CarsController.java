@@ -20,8 +20,12 @@ public class CarsController {
 
     @PostMapping("/submitCar")
     public String submitCar(@RequestBody Car car){
-
         carService.upsert(car);
+        return "Success";
+    }
+    @GetMapping("/deleteCar")
+    public String deleteCar(@RequestParam String carId){
+        carService.delete(carId);
         return "Success";
     }
 }

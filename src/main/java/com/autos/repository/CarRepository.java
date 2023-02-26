@@ -103,4 +103,15 @@ public class CarRepository {
 
     }
 
+    public void delete(String carId) {
+        try {
+            dataAccess.getCosmosClient()
+                    .getDatabase(DATABASE_ID)
+                    .getContainer(CONTAINER_ID)
+                    .deleteItem(carId, new PartitionKey(carId), new CosmosItemRequestOptions());
+        } catch (CosmosException e) {
+            System.out.println("Error deleting car.\n");
+            e.printStackTrace();
+        }
+    }
 }
