@@ -16,10 +16,10 @@ public class CarService {
     public void upsert(Car car){
         if(car.getId() == null){
             car.setId(String.format("%s-%s-%s",car.getBrand(),car.getModel(), LocalDateTime.now()));
-            carRepository.update(car);
+            carRepository.save(car);
             return;
         }
-        carRepository.save(car);
+        carRepository.update(car);
     }
     public List<Car> get(){
         return carRepository.getAllCars();
