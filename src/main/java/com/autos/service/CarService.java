@@ -14,7 +14,7 @@ public class CarService {
     private CarRepository carRepository;
 
     public void upsert(Car car){
-        if(car.getId() != null){
+        if(car.getId() == null){
             car.setId(String.format("%s-%s-%s",car.getBrand(),car.getModel(), LocalDateTime.now()));
             carRepository.update(car);
             return;
