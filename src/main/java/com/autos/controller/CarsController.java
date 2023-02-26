@@ -1,14 +1,9 @@
 package com.autos.controller;
 
-import com.autos.AppProperties;
 import com.autos.domain.Car;
-import com.autos.repository.CarRepository;
 import com.autos.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,5 +16,12 @@ public class CarsController {
     @GetMapping("/getCars")
     public List<Car> getCars(){
         return carService.get();
+    }
+
+    @PostMapping("/submitCar")
+    public String submitCar(@RequestBody Car car){
+
+        carService.upsert(car);
+        return "Success";
     }
 }

@@ -7,6 +7,7 @@ import com.azure.cosmos.models.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -83,4 +84,23 @@ public class CarRepository {
             e.printStackTrace();
         }
     }
+
+    public void save(Car car){
+        JsonNode carJson = objectMapper.valueToTree(car);
+
+        ((ObjectNode) carJson).put("Car","car");
+
+        try {
+            dataAccess.getCosmosClient()
+                    .getDatabase(DATABASE_ID)
+                    .getContainer(CONTAINER_ID)
+                    .createItem(carJson)
+                    .getItem();
+        } catch (CosmosException e){
+            System.out.println("Error creating Car.\\n");
+            e.printStackTrace();
+        }
+
+    }
+
 }

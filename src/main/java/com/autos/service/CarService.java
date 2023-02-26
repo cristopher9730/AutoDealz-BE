@@ -17,7 +17,7 @@ public class CarService {
             carRepository.update(car);
             return;
         }
-        //carRepository.insert(car)
+        carRepository.save(car);
     }
     public List<Car> get(){
         return carRepository.getAllCars();
