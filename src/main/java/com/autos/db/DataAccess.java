@@ -20,8 +20,8 @@ public class DataAccess {
     @PostConstruct
     private void init(){
      cosmosClient = new CosmosClientBuilder()
-                .endpoint(appProperties.getHost())
-                .key(appProperties.getKey())
+                .endpoint(appProperties.getCosmosHost())
+                .key(appProperties.getCosmosKey())
                 .consistencyLevel(ConsistencyLevel.EVENTUAL)
                 .buildClient();
     }
