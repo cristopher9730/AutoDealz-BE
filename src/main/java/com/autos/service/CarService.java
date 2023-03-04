@@ -36,7 +36,7 @@ public class CarService {
         try{
             Car car = objectMapper.readValue(carString,Car.class);
             MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
-            File tempFile =  new File(String.format("C:\\Users\\sqv19\\OneDrive\\Documentos\\fileDump\\%s-%s",System.currentTimeMillis(),file.getOriginalFilename()));
+            File tempFile =  new File(String.format("%s\\%s-%s",appProperties.getTempFolder(),System.currentTimeMillis(),file.getOriginalFilename()));
             Files.write(tempFile.toPath(),file.getBytes());
             entityBuilder.addBinaryBody("file",tempFile,ContentType.DEFAULT_BINARY,LocalDateTime.now().toString());
             entityBuilder.addPart("upload_preset",new StringBody(appProperties.getUploadPreset()));

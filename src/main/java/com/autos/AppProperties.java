@@ -16,4 +16,6 @@ public class AppProperties {
     private String uploadPreset;
     @Value("${cloudinary.url}")
     private String cloudinaryUploadUrl;
+    @Value("${temp.folder}")
+    private String tempFolder;
 }
