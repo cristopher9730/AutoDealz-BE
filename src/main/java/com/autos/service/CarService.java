@@ -44,15 +44,18 @@ public class CarService {
     }
 
     private String getCloudinaryURL(MultipartFile file) throws IOException {
-        MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
         File tempFile =  new File(String.format("%s\\%s-%s",appProperties.getTempFolder(),System.currentTimeMillis(), file.getOriginalFilename()));
         Files.write(tempFile.toPath(), file.getBytes());
+
+        MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
         entityBuilder.addBinaryBody("file",tempFile,ContentType.DEFAULT_BINARY,LocalDateTime.now().toString());
         entityBuilder.addPart("upload_preset",new StringBody(appProperties.getUploadPreset()));
+
         HttpClient client = new DefaultHttpClient();
         HttpPost request = new HttpPost(appProperties.getCloudinaryUploadUrl());
         request.setEntity(entityBuilder.build());
         HttpResponse response = client.execute(request);
+
         tempFile.delete();
         String url = objectMapper.readValue(EntityUtils.toString(response.getEntity(),"UTF-8"), JsonNode.class).get("secure_url").toString();
         return url.substring(1,url.length()-1);
